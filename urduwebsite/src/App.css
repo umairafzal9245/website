@@ -1,38 +1,177 @@
-.App {
-  text-align: center;
+:root {
+  --yellow: #f5c32c;
+  --orange: #fca61f;
+  --black: #242d49;
+  --gray: rgba(36, 45, 73, 0.65);
+  --profileShadow: 0px 4px 17px 2px rgba(0, 0, 0, 0.25);
+  --hrColor: #cfcdcd;
+  --cardColor: rgba(255, 255, 255, 0.64);
+  --buttonBg: linear-gradient(98.63deg, #f9a225 0%, #f95f35 100%);
+  --inputColor: rgba(40, 52, 62, 0.07);
+  --photo: #4CB256;
+  --video: #4A4EB7;
+  --location: #EF5757;
+  --shedule: #E1AE4A;
 }
 
-.App-logo {
-  height: 40vmin;
+.App {
+  overflow: hidden;
+  color: var(--black);
+  background: #f3f3f3;
+  border-radius: 1.5rem;
+  padding: 1rem 1rem;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  background: var(--buttonBg);
+  transition: all 100ms ease-out;
+}
+
+.button:hover {
+  cursor: pointer;
+  color: var(--orange);
+  background: transparent;
+  border: 2px solid var(--orange);
+}
+
+.button:disabled {
+  background: silver;
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.infoButton {
+  margin-right: 1rem;
+  width: 6rem;
+  height: 2rem;
+  align-self: flex-end;
+  display: inline-flex;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* Auth.css */
+
+.Auth {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  height: 100vh;
+  gap: 4rem;
+  position: relative;
 }
 
-.App-link {
-  color: #61dafb;
+.Auth>div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+
+/* left side */
+.a-left {
+  gap: 2rem;
+}
+
+.a-left>img {
+  width: 4rem;
+  height: 4rem;
+}
+
+.Webname>h1 {
+  font-size: 2rem;
+  background-color: red;
+
+  /* Create the gradient. */
+  background-image: var(--buttonBg);
+
+  /* Set the background size and repeat properties. */
+  background-size: 100%;
+  background-repeat: repeat;
+
+  /* Use the text as a mask for the background. */
+  /* This will show the gradient as a text color rather than element bg. */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+}
+
+.Webname>h3 {
+  font-size: 1.5rem;
+}
+
+.Webname>div>h6 {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 10%;
+  display: inline-flex;
+  font-size: 1rem;
+}
+
+.Webname>div {
+  margin-top: 1rem;
+  margin-left: 20%;
+  margin-bottom: 1rem;
+}
+
+.RecordOutput {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.Recordings {
+  display: flex;
+  flex-direction: column;
+  height: 50vh;
+  overflow: auto;
+}
+
+
+.infoForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+.infoInput {
+  border: none;
+  outline: none;
+  background-color: var(--inputColor);
+  border-radius: 8px;
+  padding: 20px;
+  flex: 1;
+}
+
+.infoForm>div {
+  display: flex;
+  gap: 1rem;
+  height: 2rem;
+  width: 90%;
+}
+
+
+.authForm {
+  background-color: var(--cardColor);
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.authForm>div {
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 }
