@@ -52,7 +52,7 @@ const Recording = ({ recording }) => {
 
     return (
         <li>
-            <h3>{sentencename}</h3>
+            <h3 style={{ 'margin-top': '0.2rem' }}>{sentencename}</h3>
             <div>
                 <button className="button infoButton" onClick={playRecording} disabled={fetch || deletee} >{fetch ? "Loading..." : playing ? "Stop" : "Play"}</button>
                 <button className="button infoButton" onClick={deleteRecordingg} disabled={deletee || fetch}>{deletee ? "Deleting" : "Delete"}</button>

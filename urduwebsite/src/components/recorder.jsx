@@ -133,7 +133,8 @@ const Recorder = () => {
 
     return (
         <div>
-            <h4 style={{ 'textAlign': 'center' }}>Recording State: {recordingstate ? <>Recording.....</> : <>Not Recording</>}</h4>
+            <hr></hr>
+            <h4 style={{ 'textAlign': 'center', 'color': 'red' }}>Recording State: {recordingstate ? <>Recording.....</> : <>Not Recording</>}</h4>
             {audioUrl && <audio src={audioUrl} controls={true} autoPlay />}
             <br />
             <button className="button infoButton" onClick={recordingstate ? stopRecording : startRecording} disabled={update}>{recordingstate ? "Stop" : "Start"}</button>

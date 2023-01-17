@@ -43,8 +43,8 @@ const Recordings = () => {
 
     return (
         <div className='Recordings'>
-            <h2>Recorded Sentences</h2>
-            <ol >
+            <h2 >Recorded Sentences</h2>
+            <ol style={{ 'margin': '0rem' }}>
                 {recordings.length > 0 ?
                     recordings.map((recording) => {
                         return (
@@ -52,7 +52,7 @@ const Recordings = () => {
                                 <Recording recording={recording} />
                             </>
                         );
-                    }) : <h3>No Recordings</h3>
+                    }) : <h3 style={{ 'margin': '0rem' }}>No Recordings</h3>
                 }
             </ol>
         </div>
