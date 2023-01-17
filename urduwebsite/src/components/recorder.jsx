@@ -87,8 +87,8 @@ const Recorder = () => {
 
     useEffect(() => {
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-                const mediarecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+            navigator.mediaDevices.getUserMedia({ audio: { sampleRate: 48000, channelCount: 1 } }).then(stream => {
+                const mediarecorder = new MediaRecorder(stream, { mimeType: 'audio/webm', audioBitsPerSecond: 960000 });
                 mediarecorder.ondataavailable = (e) => {
                     chunks.push(e.data);
                 }

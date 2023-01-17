@@ -310,6 +310,7 @@ def deleteAudio():
             users_collection.update_one(user_data, {"$set": user})
 
             wavpath = os.path.join('./static/wav',email,audioname)
+            wavpath2 = os.path.join('./static/wav',email,audioname.replace('.wav','.weba'))
             txtpath = os.path.join('./static/txt',email,audioname.replace('.wav','.txt'))
             
             
@@ -317,6 +318,8 @@ def deleteAudio():
                 os.remove(wavpath)
             if os.path.exists(txtpath):
                 os.remove(txtpath)
+            if os.path.exists(wavpath2):
+                os.remove(wavpath2)
         
             user['_id'] = str(user['_id'])
             response = jsonify(user)
