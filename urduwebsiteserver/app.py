@@ -78,7 +78,7 @@ def signup():
         words = db['Words']
         users = db['Users']
 
-        for i in range(2):
+        for i in range(150):
             sentence = short.find_one()
             sentences['short'].append(sentence['sentence'])
             short.delete_one({'sentence':sentence['sentence']})
@@ -87,7 +87,7 @@ def signup():
             medium.delete_one({'sentence':sentence['sentence']})
 
         
-        for i in range(2):
+        for i in range(50):
             sentence = short.find_one()
             extrasentences['short'].append(sentence['sentence'])
             short.delete_one({'sentence':sentence['sentence']})
@@ -95,15 +95,15 @@ def signup():
             extrasentences['medium'].append(sentence['sentence'])
             medium.delete_one({'sentence':sentence['sentence']})
 
-        for i in range(2):
+        for i in range(100):
             sentence = long.find_one()
             sentences['long'].append(sentence['sentence'])
             long.delete_one({'sentence':sentence['sentence']})
             word = words.find_one()
-            sentences['words'].append(word['word'])
-            words.delete_one({'word':word['word']})
+            sentences['words'].append(word['sentence'])
+            # words.delete_one({'sentence':word['sentence']})
 
-        for i in range(2):
+        for i in range(50):
             sentence = long.find_one()
             extrasentences['long'].append(sentence['sentence'])
             long.delete_one({'sentence':sentence['sentence']})
