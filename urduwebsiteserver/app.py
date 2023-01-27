@@ -3,9 +3,8 @@ import io
 from flask import Flask, render_template, request, send_file, Response, jsonify
 from scipy.io.wavfile import write, read
 from pydub import AudioSegment
-import torch
 import os 
-from pymongo import MongoClient
+from pymongo import MongoClient, DeleteOne,BulkWrite 
 from bson.objectid import ObjectId
 import logging
 from decouple import config
@@ -50,8 +49,6 @@ def login():
     return response
     
 
-#agar aik loop succesfull ho to tab next chale warna us loop ka operation undo ho jaye aur error return ho jaye
-#agar insert hone mein masla ho to wapis sentences db ko de do aur error return kar do
 @app.route('/register',methods=["POST"])
 def signup():
 
@@ -78,36 +75,61 @@ def signup():
         words = db['Words']
         users = db['Users']
 
-        for i in range(150):
-            sentence = short.find_one()
-            sentences['short'].append(sentence['sentence'])
-            short.delete_one({'sentence':sentence['sentence']})
-            sentence = medium.find_one()
-            sentences['medium'].append(sentence['sentence'])
-            medium.delete_one({'sentence':sentence['sentence']})
-
+        bulk_ops = []
+        cursor = short.find().limit(150)
+        for doc in cursor:
+            sentences['short'].append(doc['sentence'])
+            bulk_ops.append(DeleteOne({'sentence':doc['sentence']}))
         
-        for i in range(50):
-            sentence = short.find_one()
-            extrasentences['short'].append(sentence['sentence'])
-            short.delete_one({'sentence':sentence['sentence']})
-            sentence = medium.find_one()
-            extrasentences['medium'].append(sentence['sentence'])
-            medium.delete_one({'sentence':sentence['sentence']})
+        short.bulk_write(bulk_ops)
 
-        for i in range(100):
-            sentence = long.find_one()
-            sentences['long'].append(sentence['sentence'])
-            long.delete_one({'sentence':sentence['sentence']})
-            word = words.find_one()
-            sentences['words'].append(word['sentence'])
-            # words.delete_one({'sentence':word['sentence']})
+        bulk_ops = []
+        cursor = medium.find().limit(150)
+        for doc in cursor:
+            sentences['medium'].append(doc['sentence'])
+            bulk_ops.append(DeleteOne({'sentence':doc['sentence']}))
 
-        for i in range(50):
-            sentence = long.find_one()
-            extrasentences['long'].append(sentence['sentence'])
-            long.delete_one({'sentence':sentence['sentence']})
-    
+        medium.bulk_write(bulk_ops)
+
+        bulk_ops = []
+        cursor = long.find().limit(100)
+        for doc in cursor:
+            sentences['long'].append(doc['sentence'])
+            bulk_ops.append(DeleteOne({'sentence':doc['sentence']}))
+
+        long.bulk_write(bulk_ops)
+
+      
+        cursor = words.find().limit(100)
+        for doc in cursor:
+            sentences['words'].append(doc['sentence'])
+           
+
+        #write the same logic for extra sentences
+
+        bulk_ops = []
+        cursor = short.find().limit(150)
+        for doc in cursor:
+            extrasentences['short'].append(doc['sentence'])
+            bulk_ops.append(DeleteOne({'sentence':doc['sentence']}))
+
+        short.bulk_write(bulk_ops)
+
+        bulk_ops = []
+        cursor = medium.find().limit(150)
+        for doc in cursor:
+            extrasentences['medium'].append(doc['sentence'])
+            bulk_ops.append(DeleteOne({'sentence':doc['sentence']}))
+
+        medium.bulk_write(bulk_ops)
+
+        bulk_ops = []
+        cursor = long.find().limit(100)
+        for doc in cursor:
+            extrasentences['long'].append(doc['sentence'])
+            bulk_ops.append(DeleteOne({'sentence':doc['sentence']}))
+
+        long.bulk_write(bulk_ops)
 
         user_data = {
             "firstname":firstname,
