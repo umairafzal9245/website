@@ -49,112 +49,112 @@ def login():
     return response
     
 
-@app.route('/register',methods=["POST"])
-def signup():
+# @app.route('/register',methods=["POST"])
+# def signup():
 
-    response = Response("Error",mimetype='application/json')
-    response.headers.add('Access-Control-Allow-Origin', '*')
+#     response = Response("Error",mimetype='application/json')
+#     response.headers.add('Access-Control-Allow-Origin', '*')
 
-    try:
+#     try:
 
-        email = request.form['email']
-        password = request.form['password']
-        gender = request.form['gender']
-        firstname = request.form['firstname']
-        lastname = request.form['lastname']
-        sentences = {"short": [], "medium": [], "long": [], "words": []}
-        skipped = {"short": [], "medium": [], "long": []}
-        extrasentences = {"short": [], "medium": [], "long": []}
-        recorded = {"short": {}, "medium": {}, "long": {}, "words": {}}
+#         email = request.form['email']
+#         password = request.form['password']
+#         gender = request.form['gender']
+#         firstname = request.form['firstname']
+#         lastname = request.form['lastname']
+#         sentences = {"short": [], "medium": [], "long": [], "words": []}
+#         skipped = {"short": [], "medium": [], "long": []}
+#         extrasentences = {"short": [], "medium": [], "long": []}
+#         recorded = {"short": {}, "medium": {}, "long": {}, "words": {}}
 
-        client = MongoClient(db_url, db_port)
-        db = client['UrduUsers']
-        short = db['Short Sentences']
-        medium = db['Medium Sentences']
-        long = db['Long Sentences']
-        words = db['Words']
-        users = db['Users']
+#         client = MongoClient(db_url, db_port)
+#         db = client['UrduUsers']
+#         short = db['Short Sentences']
+#         medium = db['Medium Sentences']
+#         long = db['Long Sentences']
+#         words = db['Words']
+#         users = db['Users']
 
-        bulk_ops = []
-        cursor = short.find().limit(150)
-        for doc in cursor:
-            sentences['short'].append(doc['sentence'])
-            bulk_ops.append(DeleteOne({'sentence':doc['sentence']}))
+#         bulk_ops = []
+#         cursor = short.find().limit(150)
+#         for doc in cursor:
+#             sentences['short'].append(doc['sentence'])
+#             bulk_ops.append(DeleteOne({'sentence':doc['sentence']}))
         
-        short.bulk_write(bulk_ops)
+#         short.bulk_write(bulk_ops)
 
-        bulk_ops = []
-        cursor = medium.find().limit(150)
-        for doc in cursor:
-            sentences['medium'].append(doc['sentence'])
-            bulk_ops.append(DeleteOne({'sentence':doc['sentence']}))
+#         bulk_ops = []
+#         cursor = medium.find().limit(150)
+#         for doc in cursor:
+#             sentences['medium'].append(doc['sentence'])
+#             bulk_ops.append(DeleteOne({'sentence':doc['sentence']}))
 
-        medium.bulk_write(bulk_ops)
+#         medium.bulk_write(bulk_ops)
 
-        bulk_ops = []
-        cursor = long.find().limit(100)
-        for doc in cursor:
-            sentences['long'].append(doc['sentence'])
-            bulk_ops.append(DeleteOne({'sentence':doc['sentence']}))
+#         bulk_ops = []
+#         cursor = long.find().limit(100)
+#         for doc in cursor:
+#             sentences['long'].append(doc['sentence'])
+#             bulk_ops.append(DeleteOne({'sentence':doc['sentence']}))
 
-        long.bulk_write(bulk_ops)
+#         long.bulk_write(bulk_ops)
 
       
-        cursor = words.find().limit(100)
-        for doc in cursor:
-            sentences['words'].append(doc['sentence'])
+#         cursor = words.find().limit(100)
+#         for doc in cursor:
+#             sentences['words'].append(doc['sentence'])
            
 
-        #write the same logic for extra sentences
+#         #write the same logic for extra sentences
 
-        bulk_ops = []
-        cursor = short.find().limit(150)
-        for doc in cursor:
-            extrasentences['short'].append(doc['sentence'])
-            bulk_ops.append(DeleteOne({'sentence':doc['sentence']}))
+#         bulk_ops = []
+#         cursor = short.find().limit(150)
+#         for doc in cursor:
+#             extrasentences['short'].append(doc['sentence'])
+#             bulk_ops.append(DeleteOne({'sentence':doc['sentence']}))
 
-        short.bulk_write(bulk_ops)
+#         short.bulk_write(bulk_ops)
 
-        bulk_ops = []
-        cursor = medium.find().limit(150)
-        for doc in cursor:
-            extrasentences['medium'].append(doc['sentence'])
-            bulk_ops.append(DeleteOne({'sentence':doc['sentence']}))
+#         bulk_ops = []
+#         cursor = medium.find().limit(150)
+#         for doc in cursor:
+#             extrasentences['medium'].append(doc['sentence'])
+#             bulk_ops.append(DeleteOne({'sentence':doc['sentence']}))
 
-        medium.bulk_write(bulk_ops)
+#         medium.bulk_write(bulk_ops)
 
-        bulk_ops = []
-        cursor = long.find().limit(100)
-        for doc in cursor:
-            extrasentences['long'].append(doc['sentence'])
-            bulk_ops.append(DeleteOne({'sentence':doc['sentence']}))
+#         bulk_ops = []
+#         cursor = long.find().limit(100)
+#         for doc in cursor:
+#             extrasentences['long'].append(doc['sentence'])
+#             bulk_ops.append(DeleteOne({'sentence':doc['sentence']}))
 
-        long.bulk_write(bulk_ops)
+#         long.bulk_write(bulk_ops)
 
-        user_data = {
-            "firstname":firstname,
-            "lastname":lastname,
-            "gender":gender,
-            "email":email,
-            "password":password,
-            "sentences":sentences,
-            "extrasentences":extrasentences,
-            "recorded":recorded,
-            "skipped":skipped
-        }
-        users.create_index("email", unique=True)
-        users.insert_one(user_data)
+#         user_data = {
+#             "firstname":firstname,
+#             "lastname":lastname,
+#             "gender":gender,
+#             "email":email,
+#             "password":password,
+#             "sentences":sentences,
+#             "extrasentences":extrasentences,
+#             "recorded":recorded,
+#             "skipped":skipped
+#         }
+#         users.create_index("email", unique=True)
+#         users.insert_one(user_data)
         
-        user_data['_id'] = str(user_data['_id'])
-        response = jsonify(user_data)
-        response.headers.add('Access-Control-Allow-Origin', '*')
-    except Exception as e:
-        logging.debug(e)
-        if e.code == 11000:
-            response = Response("User already exists",mimetype='application/json')
-            response.headers.add('Access-Control-Allow-Origin', '*')
+#         user_data['_id'] = str(user_data['_id'])
+#         response = jsonify(user_data)
+#         response.headers.add('Access-Control-Allow-Origin', '*')
+#     except Exception as e:
+#         logging.debug(e)
+#         if e.code == 11000:
+#             response = Response("User already exists",mimetype='application/json')
+#             response.headers.add('Access-Control-Allow-Origin', '*')
             
-    return response
+#     return response
 
 #agar update one mein rola ho jaye to jahan se sentence nikala tha wahan dal ke error return kar do
 @app.route('/skipSentence', methods=["POST"])
