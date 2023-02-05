@@ -39,9 +39,9 @@ const Line = () => {
 
         if (user) {
 
-            setskippedShort(50 - user['skipped']['short'].length)
-            setskippedMedium(50 - user['skipped']['medium'].length)
-            setskippedLong(50 - user['skipped']['long'].length)
+            setskippedShort(100 - user['skipped']['short'].length)
+            setskippedMedium(200 - user['skipped']['medium'].length)
+            setskippedLong(100 - user['skipped']['long'].length)
 
             setshortRecorded(Object.keys(user['recorded']['short']).length)
             setmediumRecorded(Object.keys(user['recorded']['medium']).length)

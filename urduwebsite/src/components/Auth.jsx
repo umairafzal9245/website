@@ -30,7 +30,8 @@ const Auth = () => {
                 alert("Please fill all the fields");
                 return;
             }
-            data.password === data.confirmpass ? dispatch(signUp(data)) : setConfirmPass(false);
+            // data.password === data.confirmpass ? dispatch(signUp(data)) : setConfirmPass(false);
+            data.password === data.confirmpass ? alert('not allowed') : setConfirmPass(false)
         } else {
             if (data.password === "" || data.email === "") {
                 alert("Please fill all the fields");
